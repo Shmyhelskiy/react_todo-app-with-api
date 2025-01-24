@@ -12,9 +12,9 @@ type Props = {
 
 export const TodoCard: React.FC<Props> = ({
   todo,
-  deleteTodo = () => {},
-  toggleTodoStatus = () => {},
-  updateTodoTitle = () => {},
+  deleteTodo = () => { },
+  toggleTodoStatus = () => { },
+  updateTodoTitle = () => { },
 }) => {
   const [isActiveLoader, setisActiveLoader] = useState(false);
 
@@ -53,6 +53,10 @@ export const TodoCard: React.FC<Props> = ({
         setEditingTitle('');
         setIsEdit(false);
       });
+    } else if (e.key === 'Escape') {
+      setEditingTodoId(0);
+      setEditingTitle('');
+      setIsEdit(false);
     }
   };
 
@@ -73,30 +77,32 @@ export const TodoCard: React.FC<Props> = ({
       {isEdit ? (
         <input
           type="text"
+          className="todo__title-field"
           value={editingTitle}
           onChange={e => setEditingTitle(e.target.value)}
           onKeyDown={handleKeyDown}
-          className="todo__title"
+          onBlur={() => setIsEdit(false)}
           autoFocus
         />
       ) : (
-        <span
-          data-cy="TodoTitle"
-          className="todo__title"
-          onDoubleClick={() => handleDoubleClick(todo)}
-        >
-          {todo.title}
-        </span>
+        <>
+          <span
+            data-cy="TodoTitle"
+            className="todo__title"
+            onDoubleClick={() => handleDoubleClick(todo)}
+          >
+            {todo.title}
+          </span>
+          <button
+            type="button"
+            className="todo__remove"
+            data-cy="TodoDelete"
+            onClick={handleDelete}
+          >
+            ×
+          </button>
+        </>
       )}
-
-      <button
-        type="button"
-        className="todo__remove"
-        data-cy="TodoDelete"
-        onClick={handleDelete}
-      >
-        ×
-      </button>
 
       <TodoLoader isActiveLoader={todo.id === 0 || isActiveLoader} />
     </div>
