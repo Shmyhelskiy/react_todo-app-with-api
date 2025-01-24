@@ -34,6 +34,7 @@ export const TodoHeader: React.FC<Props> = ({
 }) => {
   const [newTodoTitle, setNewTodoTitle] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  const [isAllLoading, setIsAllLoading] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -58,18 +59,32 @@ export const TodoHeader: React.FC<Props> = ({
       .then(reset)
       .finally(() => {
         setIsDisabled(false);
+
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }, 0);
       });
   };
 
   const isAllTodosDone = () => allTodos.every(todo => todo.completed);
 
-  const handleToggleAll = () => {
+  const handleToggleAll = async () => {
     const allCompleted = isAllTodosDone();
     const todosToUpdateIds = allTodos
       .filter(todo => todo.completed !== !allCompleted)
       .map(todo => todo.id);
 
-    toggleAllTodoStatus(todosToUpdateIds);
+    setIsAllLoading(true);
+
+    try {
+      await toggleAllTodoStatus(todosToUpdateIds);
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsAllLoading(false);
+    }
   };
 
   return (
@@ -104,6 +119,7 @@ export const TodoHeader: React.FC<Props> = ({
           toggleTodoStatus={toggleTodoStatus}
           tempTodo={tempTodo}
           updateTodoTitle={updateTodoTitle}
+          isAllLoading={isAllLoading}
         />
       )}
 

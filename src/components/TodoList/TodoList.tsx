@@ -7,6 +7,7 @@ type Props = {
   toggleTodoStatus: (todoId: number) => Promise<void>;
   tempTodo: Todo | null;
   updateTodoTitle: (todoId: number, newTitle: string) => Promise<void>;
+  isAllLoading: boolean;
 };
 
 export const TodoList: React.FC<Props> = ({
@@ -15,6 +16,7 @@ export const TodoList: React.FC<Props> = ({
   toggleTodoStatus,
   tempTodo,
   updateTodoTitle,
+  isAllLoading,
 }) => {
   return (
     <section className="todoapp__main" data-cy="TodoList">
@@ -26,6 +28,7 @@ export const TodoList: React.FC<Props> = ({
             deleteTodo={deleteTodo}
             toggleTodoStatus={toggleTodoStatus}
             updateTodoTitle={updateTodoTitle}
+            isAllLoading={isAllLoading}
           />
         );
       })}

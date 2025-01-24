@@ -14,3 +14,7 @@ export const getFiltredTodos = (todos: Todo[], filter: FilterNav) => {
     return true;
   });
 };
+
+export const findTodo = (todoId: number, todos: Todo[]) => {
+  return todos.find(todo => todo.id === todoId);
+};

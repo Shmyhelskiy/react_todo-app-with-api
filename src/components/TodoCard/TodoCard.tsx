@@ -8,13 +8,15 @@ type Props = {
   deleteTodo?: (todoId: number) => void;
   toggleTodoStatus?: (todoId: number) => Promise<void>;
   updateTodoTitle?: (todoId: number, newTitle: string) => Promise<void>;
+  isAllLoading?: boolean | undefined;
 };
 
 export const TodoCard: React.FC<Props> = ({
   todo,
-  deleteTodo = () => {},
-  toggleTodoStatus = () => {},
-  updateTodoTitle = () => {},
+  deleteTodo = () => { },
+  toggleTodoStatus = () => { },
+  updateTodoTitle = () => { },
+  isAllLoading,
 }) => {
   const [isActiveLoader, setisActiveLoader] = useState(false);
 
@@ -104,7 +106,9 @@ export const TodoCard: React.FC<Props> = ({
         </>
       )}
 
-      <TodoLoader isActiveLoader={todo.id === 0 || isActiveLoader} />
+      <TodoLoader
+        isActiveLoader={todo.id === 0 || isAllLoading || isActiveLoader}
+      />
     </div>
   );
 };

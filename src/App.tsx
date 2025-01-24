@@ -7,6 +7,7 @@ import * as TodoService from './api/todos';
 import { Todo } from './types/Todo';
 import { TodoHeader } from './components/TodoHeader/TodoHeader';
 import { FilterNav } from './types/Filter';
+import { findTodo } from './servises/serviseTodos';
 
 export const App: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -114,7 +115,7 @@ export const App: React.FC = () => {
     newTitle: string,
   ): Promise<void> => {
     setErrorMessage('');
-    const chosenTodo: Todo | undefined = todos.find(todo => todo.id === todoId);
+    const chosenTodo: Todo | undefined = findTodo(todoId, todos);
 
     if (!chosenTodo) {
       setErrorMessage('Todo not found');
@@ -124,6 +125,18 @@ export const App: React.FC = () => {
 
     if (chosenTodo.title === newTitle) {
       return;
+    }
+
+    if (!newTitle) {
+      try {
+        await deleteTodo(todoId);
+
+        return;
+      } catch (error) {
+        setErrorMessage('Unable to delete a todo');
+
+        return;
+      }
     }
 
     try {
@@ -149,7 +162,7 @@ export const App: React.FC = () => {
   const toggleTodoStatus = async (todoId: number): Promise<void> => {
     setErrorMessage('');
 
-    const chosenTodo: Todo | undefined = todos.find(todo => todo.id === todoId);
+    const chosenTodo: Todo | undefined = findTodo(todoId, todos);
 
     if (!chosenTodo) {
       setErrorMessage('Todo not found');
