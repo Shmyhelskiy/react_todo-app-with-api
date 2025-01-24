@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import { FilterNav } from '../../types/Filter';
 
 type Props = {
@@ -12,7 +13,7 @@ export const TodoNav: React.FC<Props> = ({ handleFilter, selectFilter }) => {
         href="#/"
         className={`filter__link ${selectFilter === 'all' ? 'selected' : ''}`}
         data-cy="FilterLinkAll"
-        onClick={() => handleFilter('all')}
+        onClick={() => handleFilter(FilterNav.All)}
       >
         All
       </a>
@@ -21,7 +22,7 @@ export const TodoNav: React.FC<Props> = ({ handleFilter, selectFilter }) => {
         href="#/active"
         className={`filter__link ${selectFilter === 'active' ? 'selected' : ''}`}
         data-cy="FilterLinkActive"
-        onClick={() => handleFilter('active')}
+        onClick={() => handleFilter(FilterNav.Active)}
       >
         Active
       </a>
@@ -30,7 +31,7 @@ export const TodoNav: React.FC<Props> = ({ handleFilter, selectFilter }) => {
         href="#/completed"
         className={`filter__link ${selectFilter === 'completed' ? 'selected' : ''}`}
         data-cy="FilterLinkCompleted"
-        onClick={() => handleFilter('completed')}
+        onClick={() => handleFilter(FilterNav.Completed)}
       >
         Completed
       </a>

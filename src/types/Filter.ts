@@ -1,1 +1,5 @@
-export type FilterNav = 'all' | 'active' | 'completed';
+export enum FilterNav {
+  All = 'all',
+  Active = 'active',
+  Completed = 'completed',
+}

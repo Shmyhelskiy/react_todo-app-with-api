@@ -12,9 +12,9 @@ type Props = {
 
 export const TodoCard: React.FC<Props> = ({
   todo,
-  deleteTodo = () => { },
-  toggleTodoStatus = () => { },
-  updateTodoTitle = () => { },
+  deleteTodo = () => {},
+  toggleTodoStatus = () => {},
+  updateTodoTitle = () => {},
 }) => {
   const [isActiveLoader, setisActiveLoader] = useState(false);
 

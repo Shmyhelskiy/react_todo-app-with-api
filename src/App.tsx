@@ -14,19 +14,19 @@ export const App: React.FC = () => {
 
   const [tempTodo, setTempTodo] = useState<Todo | null>(null);
 
-  const [filter, setFilter] = useState<FilterNav>('all');
+  const [filter, setFilter] = useState<FilterNav>(FilterNav.All);
 
   const filteredTodos: Todo[] = useMemo(() => {
     return todos.filter(todo => {
-      if (filter === 'all') {
+      if (filter === FilterNav.All) {
         return true;
       }
 
-      if (filter === 'completed') {
+      if (filter === FilterNav.Completed) {
         return todo.completed;
       }
 
-      if (filter === 'active') {
+      if (filter === FilterNav.Active) {
         return !todo.completed;
       }
 
