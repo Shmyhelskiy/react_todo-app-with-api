@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable jsx-a11y/control-has-associated-label */
 import React, { useEffect, useMemo, useState } from 'react';
+import classNames from 'classnames';
 import { UserWarning } from './UserWarning';
 import * as TodoService from './api/todos';
 import { Todo } from './types/Todo';
@@ -19,19 +20,16 @@ export const App: React.FC = () => {
 
   const filteredTodos: Todo[] = useMemo(() => {
     return todos.filter(todo => {
-      if (filter === FilterNav.All) {
-        return true;
-      }
+      switch (filter) {
+        case FilterNav.Completed:
+          return todo.completed;
 
-      if (filter === FilterNav.Completed) {
-        return todo.completed;
-      }
+        case FilterNav.Active:
+          return !todo.completed;
 
-      if (filter === FilterNav.Active) {
-        return !todo.completed;
+        default:
+          return true;
       }
-
-      return true;
     });
   }, [todos, filter]);
 
@@ -251,7 +249,15 @@ export const App: React.FC = () => {
 
       <div
         data-cy="ErrorNotification"
-        className={`notification is-danger is-light has-text-weight-normal ${!errorMessage ? 'hidden' : ''}`}
+        className={classNames(
+          'notification',
+          'is-danger',
+          'is-light',
+          'has-text-weight-normal',
+          {
+            hidden: !errorMessage,
+          },
+        )}
       >
         <button
           data-cy="HideErrorButton"

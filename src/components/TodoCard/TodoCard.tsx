@@ -13,11 +13,12 @@ type Props = {
 
 export const TodoCard: React.FC<Props> = ({
   todo,
-  deleteTodo = () => { },
-  toggleTodoStatus = () => { },
-  updateTodoTitle = () => { },
+  deleteTodo = () => {},
+  toggleTodoStatus = () => {},
+  updateTodoTitle = () => {},
   isAllLoading,
 }) => {
+  const { id, title, completed } = todo;
   const [isActiveLoader, setisActiveLoader] = useState(false);
 
   const [isEdit, setIsEdit] = useState(false);
@@ -27,7 +28,7 @@ export const TodoCard: React.FC<Props> = ({
   const handleDelete = async () => {
     setisActiveLoader(true);
     try {
-      await deleteTodo?.(todo.id);
+      await deleteTodo?.(id);
     } finally {
       setisActiveLoader(false);
     }
@@ -65,14 +66,14 @@ export const TodoCard: React.FC<Props> = ({
   return (
     <div
       data-cy="Todo"
-      className={todo.completed && !isEdit ? 'todo completed' : 'todo'}
+      className={completed && !isEdit ? 'todo completed' : 'todo'}
     >
       <label className="todo__status-label">
         <input
           data-cy="TodoStatus"
           type="checkbox"
           className="todo__status"
-          checked={todo.completed}
+          checked={completed}
           onClick={handleTodoStatus}
         />
       </label>
@@ -93,7 +94,7 @@ export const TodoCard: React.FC<Props> = ({
             className="todo__title"
             onDoubleClick={() => handleDoubleClick(todo)}
           >
-            {todo.title}
+            {title}
           </span>
           <button
             type="button"
